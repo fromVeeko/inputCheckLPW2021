@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>check on the input</title>
+        <link rel = "icon" href="favicon2.ico">
+        <!--
+            CREATORE:
+            DAVICO NICOLA
+            MAT. 148659 
+            STM UNIUD
+        -->
+        
+        <link rel="stylesheet" href="awesomeStyle.css" type="text/css" charset="utf-8" />
+        <script src = "ajax.js"></script>
+    </head>
+    <body>
+        <div id = "banner" class = "upper-part">
+            <a href="index.html" class = "link-no-evidence">LABORATORIO DI PROGRAMMAZIONE WEB</a>
+        </div>   
+        <div id = "menu-under-banner">
+            <table id = "menu-table">
+                <tr>
+                    <td>//</td>
+                    <td class = "menu-item"><a href = "index.html" >PAGINA PRINCIPALE</a></td>
+                    <td>//</td>
+                    <td class = "menu-item"><a href = "devSpec.html">SPECIFICHE TECNICHE</a></td>
+                    <td>//</td>
+                </tr>
+            </table>
+        </div>
+        <div id = "page-description-center" class = "description">
+            <h3 id = "page-description-header">ESERCIZIO INTEGRATIVO</h3>
+            <p id = "talking-to-user">Molto semplicemente, tre caselle di input. Niente pi&ugrave;.<br/>
+            Per sapere cosa c'&egrave; dietro, fai clic <a href = "devSpec.html" class = "link-between-text">qui</a>
+            </p>
+        </div>
+        <div id = "core">
+            <form id = "form-need-check">
+                <table id = "input-with-description">
+                    <ul>
+                        <tr id = "dateRow">
+                            <td>
+                                Inserisci qua la <b>data</b>, formato <b>gg/mm/aaaa</b>:
+                            </td>
+                            <td>
+                                <input type = "text" id = "date" onblur = "dateCheck()">
+                            </td>
+                            <td>
+                                <div id = "dateErrorDiv"></div>
+                            </td>
+                        </tr>
+                        <tr id = "hourRow">
+                            <td>
+                                Inserisci qua <b>l'ora</b>, formato <b>hh:mm</b> :
+                            </td>
+                            <td>
+                                <input type = "text" id = "hour" onblur = "hourCheck()">
+                            </td>
+                            <td>
+                                <div id = "hourErrorDiv"></div>
+                            </td>
+                        </tr>
+                        <tr id = "descRow">
+                            <td>
+                                Inserisci qua la <b>descrizione</b>, formato <b>solo lettere</b> :
+                            </td>
+                            <td>
+                                <input type = "text" id = "description-input" onblur = "descCheck()">
+                            </td>
+                            <td>
+                               <div id = "descErrorDiv"></div> 
+                            </td>
+                        </tr>
+                    </ul>                        
+                </table>               
+            </form>
+            <div id = 'debug'></div>
+            <div id = 'serverResponse'></div>
+        </div>
+        <footer >
+            <div id = "footerDiv">2021 Nicola Davico ~ matr.148659</div>
+        </footer>
+    </body>
+</html>

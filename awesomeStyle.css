@@ -1,0 +1,120 @@
+@import "ubuntuFont.css";
+
+body{
+    margin: 0;
+    font-family: ubuntulight;
+    /*align: center;*/
+    color: rgb(10, 10, 10);
+}
+
+a{
+    text-decoration: none;
+    color: rgb(244, 253, 255);
+}
+
+pre{
+    font-family:'Courier New', Courier, monospace;
+    color:rgba(0, 0, 0, 0.74);
+}
+
+footer{
+    text-align: center;
+    font-family: ubuntulight_italic;
+    font-size: 12px;
+    color: rgb(244, 253, 255);
+    background-color: rgba(0, 0, 128, 0.322);
+    /*color: white;*/
+    margin:20% 0px 0px 0px;
+    padding-top: 5px;
+    padding-bottom: 15px;
+    padding-left: 3%;
+}
+a:hover{
+    background-color: rgba(0, 0, 128, 0.26);
+}
+
+input{
+    font-family: ubuntumedium;
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+.upper-part{
+    text-align: center;    
+}
+
+#banner{
+    text-align: center;
+    font-family: ubuntubold;
+    font-size: 30px;
+    background-color: navy;
+    /*color: white;*/
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+#menu-under-banner{
+    font-family: ubunturegular;
+    text-align: center;
+    padding: 10px 2%;
+    background-color: rgba(0, 0, 255, 0.418);
+}
+
+#menu-item{
+    text-align:center;
+    padding: 0.5% 4px;
+}
+
+#menu-table{
+    text-align: center;
+    /*padding: 1px 10%;*/
+}
+
+#page-description-header{
+    text-align: center;
+    font-family: ubuntumedium;
+    padding: 10px 15%; 
+}
+
+#page-description.center{
+    text-align: center;
+    margin: 1px 10%;
+}
+
+#talking-to-user{
+    text-align: center;
+    padding: 1px 10%;
+}
+
+#core{
+    /*-webkit-box-align: center;*/
+    margin: 10px 10% ;
+}
+
+#textual-explaination{
+    text-align: justify;
+    padding: 0.5%;
+    margin: 2% 1%; 
+}
+
+#task{
+    font-style: italic;
+    font-family: ubunturegular;
+    padding: 1%;
+    text-align: justify;
+}
+
+.paragraph-title{
+    font-family: ubunturegular;
+    padding: 0.5%;
+}
+
+.paragraph-par{
+    text-align: justify;
+}
+
+.link-between-text{
+    color:rgb(0, 0, 255);
+}
+
+

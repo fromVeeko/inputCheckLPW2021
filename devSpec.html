@@ -1,0 +1,350 @@
+<html>
+    <head>
+        <title>check on the input</title>
+        <link rel = "icon" href="favicon2.ico">
+        <!--
+            CREATORE:
+            DAVICO NICOLA
+            MAT. 148659 
+            STM UNIUD
+        -->
+        <script src = "ajax.js"></script>
+        <!--<link rel="ubuntuFont" href="ubuntuFont.css" type="text/css" charset="utf-8" />-->
+        <link rel="stylesheet" href="awesomeStyle.css" type="text/css" charset="utf-8" />
+    </head>
+    <body>
+        <div id = "banner" class = "upper-part">
+            <a href="index.html" class = "link-no-evidence">LABORATORIO DI PROGRAMMAZIONE WEB</a>
+        </div>   
+        <div id = "menu-under-banner">
+            <table id = "menu-table">
+                <tr>
+                    <td>//</td>
+                    <td class = "menu-item"><a href = "index.html" >PAGINA PRINCIPALE</a></td>
+                    <td>//</td>
+                    <td class = "menu-item"><a href = "devSpec.html">SPECIFICHE TECNICHE</a></td>
+                    <td>//</td>
+                </tr>
+            </table>
+        </div>
+        <div id = "textual-explaination">
+            Il compito assegnatomi era il seguente: 
+            <p id = "task">
+                Si realizzi in Javascript un controllo sui valori inseriti nei campi di un questionario a pagina
+                singola, contenente tre elementi di input di tipo testuale. La comunicazione dei dati verso
+                il server avvenga con schema asincrono tramite funzione XMLHTTPRequest.</br></br>
+
+                <b>data: </b>deve essere una stringa della forma gg/mm/aaaa, con gg numero fra 1 e 31, mm numero fra 1 e 12, e aaaa numero fra 1900 e 2020 (portato a 2021 per decisione mia autonoma).  Va verificata anche la presenza del carattere separatore "/" in terza e sesta posizione.   
+                </br><b>ora:</b> deve essere una stringa nella forma hh:mm  con hh numero fra 01 e 24, mm numero fra 00 e 59.  
+                </br><b>descrizione:</b> una stringa che non pu&ograve; contenere numeri. 
+            </p>
+            </br>Andando con ordine, di seguito la spiegazione di ci&ograve; che ho fatto.
+            <p class = "paragraph-title">
+                1) VALIDAZIONE DELLA DATA
+            </p>
+            <p class = "paragraph-par">
+                La validazione della data viene effettuata dalla funzione <b><i>dateCheck()</i></b>
+                <pre>
+                    function dateCheck(){//01/34/6789
+                        var errorOutput = document.getElementById('dateErrorDiv');
+                        var date = document.getElementById('date').value;
+                        var pass = 0;
+                        
+                        var day = date.slice(0, 2);
+                        var firstSlash = date.slice(2, 3); //potevo anche ottenerlo come date[2], ma ho scelto questo metodo
+                                                           //per avere continuit&agrave; numerica
+                        var month = date.slice(3, 5);
+                        var secondSlash = date.slice(5, 6);
+                        var year = date.slice(6, 10);
+                        try {
+                            if (isNaN(day)) throw "Inserire un numero";
+                            if (day < 1 || day > 31) throw "Inserire un giorno valido (1 - 31)";
+                            if (isNaN(month)) throw "Inserire un numero";
+                            if (month < 1 || month > 12) throw "Inserire un mese valido (1 - 12)";
+                            if (isNaN(year)) throw "Inserire un numero";
+                            if (year < 1900 || year > 2021) throw "Inserire un anno valido (1900 - 2021)";
+                            if (firstSlash != '/' || secondSlash != '/') throw "Correggere il carattere (inserire /)";
+                            
+                        } catch (error) {
+                            errorOutput.innerHTML = error;
+                            //alert("Got a problem"); 
+                            pass = 1;
+                        }
+                        if (pass == 0) {
+                            errorOutput.innerHTML = "&#x2714;";
+                            passValues();
+                        }
+                    }
+                </pre>
+                Analizzando nel dettaglio, dopo la dichiarazione di alcune variabili
+                <pre>
+                    var errorOutput = document.getElementById('dateErrorDiv');
+                    var date = document.getElementById('date').value;
+                    var pass = 0;
+                </pre>
+                Si trova l'assegnazione di alcune variabili utili per i vari controlli
+                <pre>
+                    var day = date.slice(0, 2);
+                    var firstSlash = date.slice(2, 3); 
+                    var month = date.slice(3, 5);
+                    var secondSlash = date.slice(5, 6);
+                    var year = date.slice(6, 10);
+                </pre>
+                in cui semplicemente assumono le parti della variabile <i>date</i> che dovrebbero corrispondere al loro nome. </br>
+                </br>
+                Si arriva quindi alla componente principale della funzione, il <i>try...catch</i>
+                <pre>
+                    try {
+                        if (isNaN(day)) throw "Inserire un numero";
+                        if (day < 1 || day > 31) throw "Inserire un giorno valido (1 - 31)";
+                        if (isNaN(month)) throw "Inserire un numero";
+                        if (month < 1 || month > 12) throw "Inserire un mese valido (1 - 12)";
+                        if (isNaN(year)) throw "Inserire un numero";
+                        if (year < 1900 || year > 2021) throw "Inserire un anno valido (1900 - 2021)";
+                        if (firstSlash != '/' || secondSlash != '/') throw "Correggere il carattere (inserire /)";
+                        
+                    } catch (error) {
+                        errorOutput.innerHTML = error;
+                        //alert("Got a problem"); 
+                        pass = 1;
+                    }
+                </pre>
+                All'interno di esso avvengono le varie verifiche sulla correttezza dei dati inseriti. </br>
+                Qualora si verificasse un errore (quindi una condizione di un qualsiasi if diventasse vera), verrebbe <i>"lanciato"</i>  l'<i>error</i>  e 
+                <i>"catturato"</i> dal <i>catch</i>. </br> 
+                Al suo interno avviene il comando per dare in output l'errore nella "casella fantasma" accanto all'input.</br>
+                Viene inoltre assegnata la variabile <i>pass</i> a 1, utile al controllo successivo ora spiegato.
+                <pre>
+                    if (pass == 0) {
+                        errorOutput.innerHTML = "&#x2714;";
+                        passValues();
+                    }
+                </pre>
+                Semplicemente, se <i>pass == 0</i> significa che non si &egrave; entrati all'interno del <i>catch</i></br>
+                Viene quindi richiamata la funzione <b><i>passValues()</i></b> (in seguito analizzata) e inserito nella "casella fantasma" il simbolo &#x2714;
+                </br>
+            </p>
+            <p class = "paragraph-title">
+                2) VALIDAZIONE DELL'ORA
+            </p>
+            <p class = "paragraph-par">
+                Effettuata dalla funzione <b><i>hourCheck()</i></b>.
+                Struttata in maniera molto simile alla funzione <b><i>dateCheck()</i></b>
+                <pre>
+                    function hourCheck() {
+                        var timed = document.getElementById('hour').value;
+                        var errorOutput = document.getElementById('hourErrorDiv');
+                        var pass = 0;
+                        var hour = timed.slice(0, 2);
+                        var dotDot = timed.slice(2, 3);
+                        var min = timed.slice(3, 5);
+                    
+                        try {
+                            if (isNaN(hour)) throw "Inserire un numero";
+                            if (hour < 0 || hour > 23) throw "Inserire un valore valido per l'ora (0-23)";
+                            if (dotDot != ':') throw "Correggere il formato orario (hh:mm)";
+                            if (isNaN(min)) throw "Inserire un numero";
+                            if (min < 0 || min > 60) throw "Inserire un valore valido per i minuti (0-59)";
+                        } catch (error) {
+                            errorOutput.innerHTML = error;
+                            pass = 1;
+                        }
+                    
+                        if (pass == 0) {
+                            errorOutput.innerHTML = "&#x2714;";
+                            passValues();
+                        }
+                    }
+                </pre>
+                La logica &egrave; sempre la stessa, andrei quindi a passo spedito verso la prossima funzione.
+            </p>
+            <p class = "paragraph-title">
+                3) VALIDAZIONE DESCRIZIONE
+            </p>
+            <p class = "paragraph-par">
+                Effettuata dalla funzione <b><i>descCheck()</i></b>.
+                Struttata in maniera simile alle due funzioni precedenti, con una piccola differenza sul tipo di controllo. 
+                <pre>
+                    function descCheck() {
+                        var description = document.getElementById('description-input').value;
+                        var errorOutput = document.getElementById('descErrorDiv');
+                    
+                        var pass = 0;
+                        var descLength = description.length;
+                        for (var i = 0; i < descLength; i++){
+                            if (!isNaN(description[i]) && description[i] != ' ') {
+                                error = "Rimuovere i numeri dalla descrizione";
+                                pass++;
+                            }
+                        }
+                    
+                        if (pass == 0) {
+                            errorOutput.innerHTML = "&#x2714;";
+                            passValues();
+                        } else {
+                            errorOutput.innerHTML = error;
+                        }
+                    }
+                </pre>
+                L' <i>error</i>  viene infatti creato all'interno di un controllo eseguito carattere per carattere in 
+                <pre>
+                    for (var i = 0; i < descLength; i++){
+                        if (!isNaN(description[i]) && description[i] != ' ') {
+                            error = "Rimuovere i numeri dalla descrizione";
+                            pass++;
+                        }
+                    }
+                </pre>
+                Notare come sia necessario il distinguo del carattere spazio, per evitare un errore-non-errore
+                 (suppongo sia dovuto ad un parsing del carattere ' ' in codice ascii e conseguentemente una lettura di esso come numero). <br>
+                All'esterno di questa parte di codice, troviamo il controllo sul valore di <i>pass</i>:
+                <pre>
+                    if (pass == 0) {
+                        errorOutput.innerHTML = "&#x2714;";
+                        passValues();
+                    } else {
+                        errorOutput.innerHTML = error;
+                    }
+                </pre>
+                e va da s&eacute; che se <i>pass > 0</i> implica uno o pi&ugrave; violazioni della richiesta, causando quindi l'emissione dell'errore.
+                </br>Anche qua in caso di correttezza dell'input l'utente ha una feedback visivo e viene chiamata la funzione <i><b>passValues()</b></i>.
+            </p>
+            <p class = "paragraph-title">
+                4) PASSAGGIO DEI VALORI IN MODALIT&Agrave; ASINCRONA
+            </p>
+            <p class = "paragraph-par">
+                Questa funzione, chiamata ogni volta che un tag input &egrave; completato in maniera corretta, si struttura nella seguente maniera:
+                <pre>
+                    function passValues(){//la funzione viene chiamata dalle tre funzioni di controllo, solo se il controllo viene passato
+                        //preparo le variabili
+                        var date = document.getElementById('date').value;
+                        var hour = document.getElementById('hour').value;
+                        var desc = document.getElementById('description-input').value;
+                        var serverResp = document.getElementById('serverResponse');
+                        var jsResp = document.getElementById('debug');
+                    
+                        //jsResp.innerHTML = "Working on it...";
+                        var request = new XMLHttpRequest();
+                    
+                        request.onreadystatechange = function () {
+                            if (request.readyState == 4 && request.status == 200) {
+                                serverResp.innerHTML = request.responseText;
+                            }
+                        }
+                    
+                        request.open("POST", "server.php");
+                        if (date != '' && hour != '' && desc != '') {
+                            jsResp.innerHTML = '';
+                            request.setRequestHeader('content-type', "application/x-www-form-urlencoded");
+                            var dateTS = date;  //TS = to server
+                            var hourTS = hour;
+                            var descTS = desc;
+                            var urlEncode = "date=" + dateTS + "&hour=" + hourTS + "&desc=" + descTS;
+                            //jsResp.innerHTML = urlEncode;
+                            request.send(urlEncode);
+                        } else {
+                            jsResp.innerHTML = "Riempi tutti i campi per vedere una magia...";
+                        }
+                    }  
+                </pre>
+                La funzione lavora con un passaggio per metodo <i>POST</i>. <br/>
+                Dopo aver preparato le variabili necessarie 
+                <pre>
+                    var date = document.getElementById('date').value;
+                        var hour = document.getElementById('hour').value;
+                        var desc = document.getElementById('description-input').value;
+                        var serverResp = document.getElementById('serverResponse');
+                        var jsResp = document.getElementById('debug');
+                    
+                        //jsResp.innerHTML = "Working on it...";
+                        var request = new XMLHttpRequest();
+                </pre>
+                (notare come la variabile <i>request</i>  sia un'istanza dell'oggetto <i>XMLHTTPRequest</i>)<br>
+                viene eseguita una funzione <i>callback</i> al variare del <i>readyState</i> della variabile <i>request</i>
+                <pre>
+                    request.onreadystatechange = function () {
+                        if (request.readyState == 4 && request.status == 200) {
+                            serverResp.innerHTML = request.responseText;
+                        }
+                    }
+                </pre>
+                dove, se <i>readyState == 4</i> (ovvero se l'operazione &egrave; conclusa) e <i>status == 200</i> (letteralmente 'OK', quindi eseguita con successo),
+                viene data in output la risposta che viene ricevuta dal server.
+                <br>
+                La richiesta viene quindi specificata nella stringa 
+                <pre>
+                    request.open("POST", "server.php");
+                </pre>
+                dove troviamo metodo usato e destinazione.
+                <br>Nel controllo successivo
+                <pre>
+                    if (date != '' && hour != '' && desc != '') {
+                        jsResp.innerHTML = '';
+                        request.setRequestHeader('content-type', "application/x-www-form-urlencoded");
+                        var dateTS = date;  //TS = to server
+                        var hourTS = hour;
+                        var descTS = desc;
+                        var urlEncode = "date=" + dateTS + "&hour=" + hourTS + "&desc=" + descTS;
+                        request.send(urlEncode);
+                    } else {
+                        jsResp.innerHTML = "Riempi tutti i campi per vedere una magia...";
+                    }
+                </pre>
+                viene eseguita una verifica dei campi: qualora anche solo uno dei tre input non fosse stato ancora compilato correttamente, la richiesta asincrona non viene eseguita 
+                e viene stampato in output il messaggio <i>"Riempi tutti i campi per vedere una magia..."</i>.
+                <br>Solamente nel momento in cui tutti e tre i campi sono completi, si procede con l'invio della richiesta.<br>
+                Col comando 
+                <pre>
+                    request.setRequestHeader('content-type', "application/x-www-form-urlencoded");
+                </pre>
+                si inserisce all'interno dell'header <i>content-type</i> il tipo di contenuto; questo passaggio è fondamentale per far sapere al nostro server 
+                come gestire le informazioni ricevute (nel nostro caso, lo informiamo dell'encoding delle informazioni in un URL).
+                <br>Viene quindi creato l'URL da inviare
+                <pre>
+                    var dateTS = date;  //TS = to server
+                    var hourTS = hour;
+                    var descTS = desc;
+                    var urlEncode = "date=" + dateTS + "&hour=" + hourTS + "&desc=" + descTS;
+                </pre>
+                E col comando 
+                <pre>
+                    request.send(urlEncode);
+                </pre>
+                viene inviata la richiesta.
+            </p>
+            <p class = "paragraph-title">
+                5) OPERAZIONE LATO SERVER
+            </p>
+            <p class = "paragraph-par">
+                La componente pi&ugrave; semplice del progetto. <br>
+                In mancanza di specifiche, ho deciso autonomamente di effettuare una semplice stampa
+                 dei dati ricevuti dal server in una frase strutturata.
+                <pre>
+                    $date = $_POST['date'];
+                    $hour = $_POST['hour'];
+                    $desc = $_POST['desc'];
+
+                    echo "Questa che stai leggendo &egrave; una semplice risposta di un
+                            server che non sa a cosa serva, ma comunque ti risponde 
+                            ci&ograve; che gli hai inserito: <br>
+                            <b>data : $date </b> </br>
+                            <b>ora : $hour </b> </br>
+                            <b>descrizione : $desc </b> </br> </br>
+                            
+                            Per saperne di pi&ugrave, visita la pagina specifiche tecniche"
+                </pre>
+            </p>
+            <p class = "paragraph-title">
+                --CONCLUSIONE--
+            </p>
+            <p class = "paragraph-par">
+                Finisce qua il giretto dietro ad un semplice controllo dell'input. 
+                <br>Spero sia stato utile e sufficientemente chiaro.<br>
+                <i><b>ALLA PROSSIMA!</b></i>
+            </p>
+        </div>
+        <footer >
+            <div id = "footerDiv">2021 Nicola Davico ~ matr.148659</div>
+        </footer>
+    </body>
+</html>
